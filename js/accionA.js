@@ -37,23 +37,47 @@
                 .fail(function (jxhr, textStatus) {
                     console.log(textStatus);
                 })
-                .always(function () {
-                    $("div").on("click",function (e) {
-                        /*var ultimo = $('div:last-child'*/
 
-                         $(this).css({
-                            "display":"none"
-                         })
-                        for (usuario of listaUsuarios) {
-                            $(this).append(texto);
-                        }
-                        $(this).append([texto])
-
-                        //meter var ultimo en la capara que pinches.
-
-                    })
-
+        $("img").on("click",function (e) {
+            $(this).css({
+                "display":"none"
+            });
+            var jqxhr2 = $.ajax({
+                url: 'https://randomuser.me/api/',
+                method: "get",
+                dataType: "json",
+                data: {results: 1}
+            });
+            jqxhr2
+                .done(function (data) {
+                    $("#boton").hide();
+                    var listaUsuarios2 = data["results"];
+                    var texto2 = "";
+                    for (usuario of listaUsuarios) {
+                        var nombre2 = usuario["name"]["first"];
+                        var apellido2 = usuario["name"]["last"];
+                        var email2 = usuario["email"];
+                        var localidad2 = usuario["location"]["city"]
+                        var estado2 = usuario["location"]["state"]
+                        var cp2 = usuario["location"]["postcode"]
+                        var calle2 = usuario["location"]["street"]
+                        var imagen2 = usuario["picture"]["large"];
+                        texto2="<div class='fila'>";
+                        texto2+="<figure>";
+                        texto2 += "<img src='" + imagen + "'>";
+                        texto2+="</figure>";
+                        texto2+="<div class='texto'>";
+                        texto2 += "<p>"+nombre + " " + apellido + "</p>";
+                        texto2 += "<p>"+email + "</p>";
+                        texto2 += "<p>"+calle + ", " + cp + ", " + localidad + " (" + estado + ")</p>";
+                        texto2 += "</div>";
+                        texto2+="</div>";
+                        $("#contenido2").append(texto2);
+                    }
+                })
+                .fail(function (jxhr2, textStatus) {
+                    console.log(textStatus);
                 })
         })
-
+        })
     })
